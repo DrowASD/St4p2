@@ -1,24 +1,43 @@
 def power_and_multiply(num):
-    # Преобразуем число в строку, чтобы легко извлечь цифры
-    num_str = str(num)
-    
-    # Извлекаем последние три цифры
-    единицы = int(num_str[-1])
-    десятки = int(num_str[-2]) if len(num_str) > 1 else 0
-    сотни = int(num_str[-3]) if len(num_str) > 2 else 0
-    
-    # Рассчитываем результат
-    if десятки * 10 - единицы == 0:
-        raise ValueError("Деление на ноль невозможно.")
-    
-    результат = (десятки ** единицы) * сотни
-    результат /= (десятки * 10 - единицы)
-    
-    return результат
+    """
+    Вычисляет результат по заданной формуле, учитывая особенности числа.
+
+    Args:
+        num: Целое положительное число.
+
+    Returns:
+        Результат вычисления.
+
+    Raises:
+        ValueError: Если вхождение данных некорректно или если происходит деление на ноль.
+    """
+
+    if num <= 0:
+        raise ValueError("Число должно быть положительным")
+
+    # Извлечение последних трех цифр числа
+    hundreds = (num // 100) % 10
+    tens = (num // 10) % 10
+    units = num % 10
+
+    # Проверяем на деление на ноль
+    divisor = (tens * 10 - units)
+    if divisor == 0:
+        raise ValueError("Деление на ноль невозможно")
+
+    # Проверка корректности возведения в степень
+    if units == 0 and tens == 0:
+        raise ValueError("Невозможно возвести в степень")
+
+    # Расчет результата
+    result = (tens ** units) * hundreds
+    result /= divisor
+
+    return result
 
 # Пример использования
 num = 46275
-print(power_and_multiply(num))  # Примерный вывод, зависит от значения num
+print(power_and_multiply(num))
 
 
 # https://github.com/DrowASD/St4p2
